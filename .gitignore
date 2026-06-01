@@ -1,0 +1,18 @@
+# DEV & mine
+**/.vscode/
+**/.idea/
+
+**/.tmp/
+**/.test/
+**/**_test_**
+output
+
+# Secrets
+**/*.env
+
+# Logs
+**/*.log
+
+# Python
+**/__pycache__/
+

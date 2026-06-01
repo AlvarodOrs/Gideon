@@ -1,16 +1,23 @@
 <!-- [START]
 ## Overview
 
-Gideon automates the maintenance of a developer's public presence by syncing data from their GitHub repositories into two targets: the profile `README.md` and a Next.js personal web.
+Automation system that pulls GitHub repository metadata and generates synchronized updates for a profile README and a Next.js portfolio website.
 
 Instead of manually updating project lists, stats, or descriptions every time a repo changes, Gideon fetches the latest public repo data and regenerates the relevant sections automatically.
 
 ## Scope
 
-- **GitHub data ingestion** — fetches public repository metadata via the GitHub API (names, descriptions, languages, stars, last updated)
-- **README generation** — updates the GitHub profile README with current project data and stats
-- **Next.js integration** — pushes structured repo data into a Next.js site so the portfolio stays current without manual edits
-- **Automation layer** — designed to run on a schedule or trigger, keeping both targets in sync passively
+* GitHub repository metadata ingestion via API
+* Automated generation of profile README content
+* Automated updates to portfolio website MDX project pages
+* Continuous synchronization between GitHub and personal web presence
+
+## Constraints
+
+* Limited to public GitHub data
+* No defined configuration schema provided
+* No conflict handling strategy for manual vs automated edits specified
+* Dependent on external scheduling/trigger system for execution
 
 ## Status
 
