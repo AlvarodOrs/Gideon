@@ -5,7 +5,6 @@
 **/.tmp/
 **/.test/
 **/**_test_**
-output
 
 # Secrets
 **/*.env

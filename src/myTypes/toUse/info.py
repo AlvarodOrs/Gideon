@@ -23,5 +23,6 @@ class FormattedRepoInfo(ReadmeInfo):
     description: Optional[str]
     status: Literal['planned', 'in-progress', 'completed', 'live']
     tags: Optional[list[str]]
-    date: str
+    created: str
+    updated: str
     repo: str

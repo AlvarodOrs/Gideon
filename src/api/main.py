@@ -1,18 +1,25 @@
-class GithubAPI:
-    def __init__(self, accept_type: str = "application/vnd.github+json", token: str = None):
-        self.token = token
-        self.headers_public = {
-            'Accept': accept_type,
-            'X-GitHub-Api-Version': "2026-03-10"
-            }
-        if token:
-            self.headers_auth = {
-                'Accept': accept_type,
-                'X-GitHub-Api-Version': "2026-03-10",
-                'Authorization': f'token {self.token}'
-                }
-        else:
-            print("No token provided, using public API endpoints")
-            self.headers_auth = self.headers_public 
+from constants import COMMIT_MESSAGE
 
-        self.base_url = 'https://api.github.com'
+def get_headers(extension: str = None, token: str = None):
+    _headers = {
+        'Accept': 'application/vnd.github+json',
+    }
+    if extension: _headers['Accept'] = f'application/vnd.github{'.'+extension}+json'
+    if token: _headers['Authorization'] = f'Bearer {token}'
+    _headers['X-GitHub-Api-Version'] = '2026-03-10'
+    return _headers
+
+def get_body(new_content: str, sha_encoding: str = None):
+    _ = {
+        "message": COMMIT_MESSAGE,
+        "committer": {
+            "name": "Gideon",
+            "email": "gideon@adors.dev"},
+        "content": new_content,
+    }
+    if sha_encoding: _['sha'] = sha_encoding
+    return _
+
+def get_url(is_repo: bool = False):
+    if is_repo: return 'https://api.github.com/repos'
+    return 'https://api.github.com'
