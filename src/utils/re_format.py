@@ -62,4 +62,4 @@ repo: {repo_link}
 ---
 {content}
 """
-    return base64.b64encode(frontmatter.encode("utf-8")).decode("utf-8")
+    return frontmatter #base64.b64encode(frontmatter.encode("utf-8")).decode("utf-8")
