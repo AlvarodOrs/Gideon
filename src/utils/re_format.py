@@ -48,7 +48,7 @@ def mdx_format_data(repo: dict):
     repo_name = repo['title']
     repo_link = f"https://social.adors.dev/github/{repo_name}"
     content = repo["content"]
-
+    if repo['category'] == 'website': repo['status'] = 'live'
     frontmatter = f"""---
 title: {repo_name}
 category: {repo['category']}
