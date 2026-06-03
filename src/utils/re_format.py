@@ -2,6 +2,7 @@ import re
 import base64
 
 from constants import CATEGORIES
+from ..api import AI_API
 
 def set_category(topics):
     for topic in topics:
@@ -19,19 +20,22 @@ def set_status(readme_content):
     if match: 
         _status = match.group(1).split(".")[0]
         status = _status.lower().replace(" ", "-")
+        if status == 'complete': status = 'completed'
         return status
     else:
         print("[ERROR!!] No defined status")
         return ''
     
-def format_repo_data(repo):
+def format_repo_data(repo, AI_readme: bool = False):
     category = set_category(repo['topics'])
-    if category == 'website':
-        readme = f'## Overview\n\n{repo['description']}'
-        status = 'live'
+    if AI_readme: readme = AI_API(...).generate_README(repo_link=repo['html_url'])
     else:
         readme = format_README(repo['readme'], r'<!--\s*\[START\]\s(.*?)\[END\]\s*-->')
-        status = set_status(readme)
+        if category == 'website': readme = f'## Overview\n\n{repo['description']}'
+        
+    if category == 'website': status = 'live'
+    else: status = set_status(readme)
+
     return {
         "title": repo['name'],
         "category": category,

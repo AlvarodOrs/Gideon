@@ -14,12 +14,13 @@ load_dotenv()
 GITHUB_ID = os.getenv('GITHUB_ID')
 GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
 class App:
-    def __init__(self, is_debug: bool = False):
+    def __init__(self, AI_readme: bool = False, is_debug: bool = False):
         self.is_debug: bool = is_debug
         self.user: classmethod = User(API_data=(GITHUB_ID, GITHUB_TOKEN), is_debug=self.is_debug)
         self.username: str = self.user.get_username()
         self.repositories: list = self.user.get_repositories_info().json()
         self.excluded_repos: list = EXCLUDED_REPOS.append(self.username)
+        self.AI_readme = AI_readme
 
     def get_repo_info(self, repo: RawRepoInfo, readme: str = None) -> dict[RawRepoInfo]:
         
@@ -53,7 +54,7 @@ class App:
                 self.get_repo_info(repo=repo, readme=readme_content)
             )
 
-        return [format_repo_data(repo) for repo in repo_data]
+        return [format_repo_data(repo=repo, AI_readme=self.AI_readme) for repo in repo_data]
     
     def process_data(self, data):
         profile_readme_data = []
@@ -71,8 +72,7 @@ class App:
         #README later
 
 if __name__ == "__main__":
-    run = App(False)
+    run = App(AI_readme=False, is_debug=False)
     data = run.fetch_data()
     for repo in data: print(repo,'\n')
-    input()
     run.process_data(data)
