@@ -2,6 +2,7 @@ WEB_REPO = "adors.dev"
 WEB_REPO_PATH = "content/projects"
 EXCLUDED_REPOS = ["UNIR", "TESTING"]
 CATEGORIES = ['finance', 'engineering', 'utils', 'website']
+STATUSES = ['planned', 'in-progress', 'completed', 'live']
 EXCLUDED_CATEGORIES = None #['website']
 MDX_TEMPLATE = """
 ## Overview

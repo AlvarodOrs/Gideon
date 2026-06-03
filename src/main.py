@@ -67,12 +67,13 @@ class App:
                 "content": mdx_format_data(_repo)})
 
             profile_readme_data.append(f"{_repo['title']} - {_repo['description']}")
-        
+        [print(file,'\n') for file in files]
+        input()
         repo.commit_files(files)
         #README later
 
 if __name__ == "__main__":
     run = App(AI_readme=False, is_debug=False)
     data = run.fetch_data()
-    for repo in data: print(repo,'\n')
+    [print(repo,'\n') for repo in data]
     run.process_data(data)

@@ -1,7 +1,7 @@
 import re
 import base64
 
-from constants import CATEGORIES
+from constants import CATEGORIES, STATUSES
 from ..api import AI_API
 
 def set_category(topics):
@@ -19,28 +19,26 @@ def set_status(readme_content):
     match = re.search(r'## Status\n*\s*(.*)', readme_content, re.DOTALL)
     if match: 
         _status = match.group(1).split(".")[0]
-        status = _status.lower().replace(" ", "-")
-        if status == 'complete': status = 'completed'
-        return status
-    else:
-        print("[ERROR!!] No defined status")
-        return ''
+        for _ in _status.split():
+            _ = _.lower()
+            if _ == 'complete': _ = 'completed'
+            if _ == 'in' and _status.split()[1] == 'progress': _ = "in-progress"
+            if _ in STATUSES: return(_)
+    print(f"[ERROR!!] No defined status: {_status}")
+    return ''
     
 def format_repo_data(repo, AI_readme: bool = False):
     category = set_category(repo['topics'])
     if AI_readme: readme = AI_API(...).generate_README(repo_link=repo['html_url'])
     else:
         readme = format_README(repo['readme'], r'<!--\s*\[START\]\s(.*?)\[END\]\s*-->')
-        if category == 'website': readme = f'## Overview\n\n{repo['description']}'
-        
-    if category == 'website': status = 'live'
-    else: status = set_status(readme)
+        if category == 'website': readme = f'## Overview\n\n{repo['description']}\n\n## Status\n\nLive at {repo['homepage']}'
 
     return {
         "title": repo['name'],
         "category": category,
         "description": repo['description'],
-        "status": status,
+        "status": set_status(readme),
         "tags": repo['topics'],
         "created": repo['created_at'],
         "updated": repo['updated_at'],
@@ -59,7 +57,7 @@ def mdx_format_data(repo: dict):
     repo_link = f"https://social.adors.dev/github/{repo_name}"
     content = repo["content"]
     frontmatter = f"""---
-title: {repo_name}
+title: {repo_name.replace('-', ' ')}
 category: {repo['category']}
 description: {repo['description']}
 status: {repo['status']}
