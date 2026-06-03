@@ -32,7 +32,7 @@ def format_repo_data(repo, AI_readme: bool = False):
     if AI_readme: readme = AI_API(...).generate_README(repo_link=repo['html_url'])
     else:
         readme = format_README(repo['readme'], r'<!--\s*\[START\]\s(.*?)\[END\]\s*-->')
-        if category == 'website': readme = f'## Overview\n\n{repo['description']}\n\n## Status\n\nLive at [{repo['homepage'].replace('https://','')}]({repo['homepage']})'
+        if category == 'website': readme = f"## Overview\n\n{repo['description']}\n\n## Status\n\nLive at <a href='{repo['homepage']}'>{repo['homepage'].replace('https://','')}</a>"
 
     return {
         "title": repo['name'],
@@ -66,8 +66,9 @@ tags:
 {tags}
 date: {date}
 updated: {updated}
-repo: {repo_link}{f' | {repo['homepage']}' if repo['homepage'] != '' and repo['homepage'].split('.')[0] != 'https://social' else ''}
+repo: {repo_link}
 ---
 {content}
 """
+    # {f' | {repo['homepage']}' if repo['homepage'] != '' and repo['homepage'].split('.')[0] != 'https://social' else ''}
     return frontmatter #base64.b64encode(frontmatter.encode("utf-8")).decode("utf-8")
