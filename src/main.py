@@ -61,14 +61,6 @@ class App:
 
         repo = Repository(API_data=(GITHUB_ID, GITHUB_TOKEN), repository_name=WEB_REPO, username=self.username, is_debug=self.is_debug)
         for _repo in data:
-            new_file = mdx_format_data(_repo)
-            repo_path = f"{WEB_REPO_PATH}/{_repo['title'].lower()}.mdx"
-            # try:
-            #     sha = repo.get_file_content(repo_path, None).json()['sha']
-            # except Exception as e:
-            #     print(f"Error: {e}")
-            #     sha = None
-            # repo.update_file(new_file, repo_path, sha) # Make it be only 1 push?
             files.append({
                 "path": f"{WEB_REPO_PATH}/{_repo['title'].lower()}.mdx",
                 "content": mdx_format_data(_repo)})
@@ -81,4 +73,6 @@ class App:
 if __name__ == "__main__":
     run = App(False)
     data = run.fetch_data()
+    for repo in data: print(repo,'\n')
+    input()
     run.process_data(data)

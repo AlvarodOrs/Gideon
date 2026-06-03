@@ -25,16 +25,22 @@ def set_status(readme_content):
         return ''
     
 def format_repo_data(repo):
-    readme = format_README(repo['readme'], r'<!--\s*\[START\]\s(.*?)\[END\]\s*-->')
+    category = set_category(repo['topics'])
+    if category == 'website':
+        readme = f'## Overview\n\n{repo['description']}'
+        status = 'live'
+    else:
+        readme = format_README(repo['readme'], r'<!--\s*\[START\]\s(.*?)\[END\]\s*-->')
+        status = set_status(readme)
     return {
         "title": repo['name'],
-        "category": set_category(repo['topics']),
+        "category": category,
         "description": repo['description'],
-        "status": set_status(readme),
+        "status": status,
         "tags": repo['topics'],
         "created": repo['created_at'],
         "updated": repo['updated_at'],
-        "repo": repo['html_url'],
+        "repo": repo['html_url'] if repo['homepage'] is None else repo['homepage'],
         "content": readme
     }
 
@@ -48,7 +54,6 @@ def mdx_format_data(repo: dict):
     repo_name = repo['title']
     repo_link = f"https://social.adors.dev/github/{repo_name}"
     content = repo["content"]
-    if repo['category'] == 'website': repo['status'] = 'live'
     frontmatter = f"""---
 title: {repo_name}
 category: {repo['category']}
