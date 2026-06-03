@@ -5,16 +5,12 @@ Gideon is a synchronization pipeline that transforms GitHub repository metadata 
 
 It removes manual maintenance of project listings and descriptions by treating GitHub as the source of truth. On execution, it retrieves current repository state and deterministically regenerates downstream content.
 
-
-
 ## Scope
 
 * Ingestion of GitHub repository metadata via GitHub REST API
 * Generation of GitHub profile `README.md` from structured templates
 * Generation and update of MDX-based project pages in a Next.js portfolio
 * Consistent synchronization between GitHub repository state and external presentation layers
-
-
 
 ## Constraints
 
@@ -23,8 +19,6 @@ It removes manual maintenance of project listings and descriptions by treating G
 * No defined merge strategy between manually edited and auto-generated content
 * Requires an external trigger mechanism (CI, cron, or manual execution) to run synchronization cycles
 * Output correctness is fully dependent on template validity and repository metadata consistency
-
-
 
 ## Status
 

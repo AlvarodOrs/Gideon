@@ -32,7 +32,7 @@ def format_repo_data(repo, AI_readme: bool = False):
     if AI_readme: readme = AI_API(...).generate_README(repo_link=repo['html_url'])
     else:
         readme = format_README(repo['readme'], r'<!--\s*\[START\]\s(.*?)\[END\]\s*-->')
-        if category == 'website': readme = f'## Overview\n\n{repo['description']}\n\n## Status\n\nLive at {repo['homepage']}'
+        if category == 'website': readme = f'## Overview\n\n{repo['description']}\n\n## Status\n\nLive at [{repo['homepage'].replace('https://','')}]({repo['homepage']})'
 
     return {
         "title": repo['name'],
@@ -42,7 +42,8 @@ def format_repo_data(repo, AI_readme: bool = False):
         "tags": repo['topics'],
         "created": repo['created_at'],
         "updated": repo['updated_at'],
-        "repo": repo['html_url'] if repo['homepage'] is None else repo['homepage'],
+        "repo": repo['html_url'],
+        "homepage": repo['homepage'],
         "content": readme
     }
 
@@ -65,7 +66,7 @@ tags:
 {tags}
 date: {date}
 updated: {updated}
-repo: {repo_link}
+repo: {repo_link}{f' | {repo['homepage']}' if repo['homepage'] != '' and repo['homepage'].split('.')[0] != 'https://social' else ''}
 ---
 {content}
 """
