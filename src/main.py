@@ -68,7 +68,6 @@ class App:
 
             profile_readme_data.append(f"{_repo['title']} - {_repo['description']}")
         [print(file,'\n') for file in files]
-        input()
         repo.commit_files(files)
         #README later
 
